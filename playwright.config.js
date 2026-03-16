@@ -1,21 +1,30 @@
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
+
+const isCI = !!process.env.CI;
+
 const config = {
   testDir: './tests',
 
   use: {
-    baseURL: 'https://dev.fleetdrive360.com', // ✅ IMPORTANT
-    // Run headed locally but force headless on CI runners
-    headless: process.env.CI ? true : false,
+    baseURL: 'https://dev.fleetdrive360.com',
+
+    // Headless on CI, headed locally
+    headless: isCI ? true : false,
+
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'on-first-retry',
   },
 
-  reporter: [
-    ['list'],
-    // Do not attempt to open the HTML report on CI
-    ['html', { open: process.env.CI ? 'never' : 'always' }]
-  ],
+  reporter: isCI
+    ? [
+        ['list'],
+        ['allure-playwright']
+      ]
+    : [
+        ['list'],
+        ['html', { open: 'always' }]
+      ],
 };
 
 module.exports = config;
