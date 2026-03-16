@@ -35,10 +35,14 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      # 🔴 IMPORTANT FIX
+      - name: Clean previous Allure results
+        run: rm -rf allure-results allure-report
+
       - name: Run Playwright tests (Allure reporter)
         run: npx playwright test --reporter=line,allure-playwright
 
-      # NEW STEP: Add environment info in Allure
+      # Environment details in Allure report
       - name: Add Allure Environment Info
         if: always()
         run: |
@@ -49,7 +53,7 @@ jobs:
           echo "Framework=Playwright" >> allure-results/environment.properties
           echo "CI=GitHub Actions" >> allure-results/environment.properties
 
-      # NEW STEP: Add failure categories
+      # Failure categories
       - name: Add Allure Categories
         if: always()
         run: |
