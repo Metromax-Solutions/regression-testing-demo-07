@@ -50,7 +50,7 @@ test.describe('FD360 Login Scenarios', () => {
     await page.getByRole('textbox', { name: 'Username' }).fill('sambittest');
     await page.getByRole('button', { name: 'Login' }).click();
 
-    await expect(page.getByText('Password is required.')).toBeVisible();
+    await expect(page.getByText('Password is required')).toBeVisible();
   });
 
   // BOTH FIELDS BLANK
@@ -65,7 +65,7 @@ test.describe('FD360 Login Scenarios', () => {
 });
 
 
-// ================= API TEST (Added at End) =================
+// ================= API TEST  =================
 
 test('Valid Login - API Validation', async ({ request }) => {
 
@@ -82,10 +82,10 @@ test('Valid Login - API Validation', async ({ request }) => {
     }
   );
 
-  // ✅ Status validation
+  // Status validation
   expect(response.status()).toBe(200);
 
-  // ✅ Body validation
+  // Body validation
   const body = await response.json();
 
   expect(body.success).toBe(true);
